@@ -58,7 +58,7 @@ const MatchDetail = () => {
           <MatchDetailStyle.MatchActionGroup>
             <MatchDetailStyle.MatchLabel>Name:</MatchDetailStyle.MatchLabel>
             <MatchDetailStyle.MatchInfo>
-              {matchDetail?.name}
+              {_renderNameOfMatch()}
             </MatchDetailStyle.MatchInfo>
           </MatchDetailStyle.MatchActionGroup>
           <MatchDetailStyle.MatchActionGroup>
