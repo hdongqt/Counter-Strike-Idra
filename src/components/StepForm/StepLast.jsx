@@ -3,8 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import domtoimage from "dom-to-image-more";
 import { saveAs } from "file-saver";
 import {
+  addUserPro,
   backStepForm,
   cancelCreateMatch,
+  deleteUserPro,
   submitcreateMatchAPI,
 } from "../../actions/formMatchAction";
 import { setUserSelect, getUsers } from "../../actions/userAction";
@@ -74,6 +76,12 @@ const StepLast = () => {
       width: "120px",
       actions: [
         {
+          icon: "las la-plus-circle",
+          bgColor: "#06b33f",
+          color: "#fff",
+          onClick: (item) => handleAddUserPro(item),
+        },
+        {
           icon: "las la-trash-alt",
           bgColor: "#EC3737",
           color: "#fff",
@@ -83,9 +91,58 @@ const StepLast = () => {
     },
   ];
 
+  const columnUserPro = [
+    {
+      name: "name",
+      title: "Name",
+    },
+    {
+      title: "Win",
+      render: (data) => {
+        return <span>{data.amountWin}</span>;
+      },
+    },
+    {
+      title: "Lose",
+      render: (data) => {
+        return <span>{data.amountLose}</span>;
+      },
+    },
+    {
+      title: "Win Rate",
+      render: (data) => {
+        return <span>{data.winRate} % </span>;
+      },
+    },
+    {
+      title: "Win Rate Default",
+      width: "150px",
+      render: (data) => {
+        return (
+          <span>
+            {data.winRateDefault !== null ? `${data.winRateDefault} %` : ""}
+          </span>
+        );
+      },
+    },
+    {
+      name: "",
+      title: "Action",
+      width: "120px",
+      actions: [
+        {
+          icon: "las la-trash-alt",
+          bgColor: "#EC3737",
+          color: "#fff",
+          onClick: (item) => handleDeleteUserPro(item.id),
+        },
+      ],
+    },
+  ];
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { listUser, listUserSelect, teamGenerate } = useSelector(
+  const { listUser, listUserSelect, teamGenerate, listUserPro } = useSelector(
     (state) => state.matchFormReducer.formCreateMatch
   );
   const { isLoading } = useSelector((state) => state.matchFormReducer);
@@ -153,8 +210,11 @@ const StepLast = () => {
 
   const onClickGenerateTeamAPI = () => {
     if (listUserSelect && listUserSelect.length > 1) {
-      const listIdSelect = { listUser: listUserSelect.map((item) => item.id) };
-      dispatch(generateTeamAPIFromListUser(listIdSelect));
+      const data = {
+        listUser: listUserSelect.map((item) => item.id),
+        listUserPro: listUserPro.map((item) => item.id),
+      };
+      dispatch(generateTeamAPIFromListUser(data));
     } else {
       message.error("Please choose total player greater than 2");
     }
@@ -169,6 +229,14 @@ const StepLast = () => {
     }
   };
 
+  const handleAddUserPro = (user) => {
+    if (!listUserPro.find((item) => item.id === user.id)) {
+      dispatch(addUserPro(user));
+    }
+  };
+  const handleDeleteUserPro = (id) => {
+    dispatch(deleteUserPro(id));
+  };
   return (
     <>
       <div style={{ marginBottom: "10px", width: "250px" }}>
@@ -183,7 +251,17 @@ const StepLast = () => {
         <h3 style={{ padding: "10px 0px" }}>List User</h3>
       </div>
       <div>
-        <Table columns={columnUserSelect} data={listUserSelect} />
+        <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+          <Table columns={columnUserSelect} data={listUserSelect} />
+        </div>
+        {listUserPro && listUserPro.length > 0 && (
+          <>
+            <span>List of pro users</span>
+            <div style={{ maxHeight: "400px", overflowY: "auto" }}>
+              <Table columns={columnUserPro} data={listUserPro} />
+            </div>
+          </>
+        )}
         <div style={{ padding: "6px 0px" }}>
           <FormStyle.FormButton
             type="button"

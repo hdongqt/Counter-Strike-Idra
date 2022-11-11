@@ -10,9 +10,9 @@ const getMatchByIdAPI = (id) => {
   return axiosClient.get(url, { params: {} });
 };
 
-const generateTeamAPI = (listIdUser) => {
+const generateTeamAPI = (data) => {
   const url = "/matchs/team";
-  return axiosClient.post(url, listIdUser);
+  return axiosClient.post(url, data);
 };
 
 const createMatchAPI = (matchInfo) => {

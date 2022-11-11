@@ -14,6 +14,8 @@ import {
   SET_FORM_MATCH_EDIT,
   CHANGE_ERROR_EDIT_MATCH,
   EDIT_MATCH_FULFILLED,
+  ADD_USER_PRO,
+  DELETE_USER_PRO,
 } from "../constants/actionType";
 import { getMatchs } from "./matchAction";
 
@@ -35,26 +37,37 @@ export const changeErrorCreateMatch = (value) => {
 export const cancelCreateMatch = () => {
   return { type: CANCEL_CREATE_MATCH };
 };
-export const submitcreateMatchAPI = (formCreate, handleCancelCreate) => async (dispatch) => {
-  dispatch({ type: CALL_API_PENDING });
-  try {
-    const response = await createMatchAPI(formCreate);
-    dispatch({
-      type: CREATE_MATCH_FULFILLED,
-      payload: response.data,
-    });
-    message.success("Create match successfully !");
-    handleCancelCreate();
-  } catch (error) {
-    dispatch({ type: CREATE_MATCH_REJECTED });
-    const messsageError = error.response?.data.error.message || error?.message;
-    message.error(messsageError);
-  }
+
+export const addUserPro = (user) => {
+  return { type: ADD_USER_PRO, payload: user };
 };
-export const generateTeamAPIFromListUser = (listIdSelect) => async (dispatch) => {
+
+export const deleteUserPro = (id) => {
+  return { type: DELETE_USER_PRO, payload: id };
+};
+
+export const submitcreateMatchAPI =
+  (formCreate, handleCancelCreate) => async (dispatch) => {
+    dispatch({ type: CALL_API_PENDING });
+    try {
+      const response = await createMatchAPI(formCreate);
+      dispatch({
+        type: CREATE_MATCH_FULFILLED,
+        payload: response.data,
+      });
+      message.success("Create match successfully !");
+      handleCancelCreate();
+    } catch (error) {
+      dispatch({ type: CREATE_MATCH_REJECTED });
+      const messsageError =
+        error.response?.data.error.message || error?.message;
+      message.error(messsageError);
+    }
+  };
+export const generateTeamAPIFromListUser = (data) => async (dispatch) => {
   dispatch({ type: CALL_API_PENDING });
   try {
-    const response = await generateTeamAPI(listIdSelect);
+    const response = await generateTeamAPI(data);
     dispatch({
       type: GENERATE_TEAM_TO_MATCH_FULFILLED,
       payload: response.data,

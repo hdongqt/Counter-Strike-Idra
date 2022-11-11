@@ -17,12 +17,15 @@ import {
   EDIT_MATCH_REJECTED,
   EDIT_MATCH_FULFILLED,
   CLEAR_FORM_EDIT_MATCH,
+  ADD_USER_PRO,
+  DELETE_USER_PRO,
 } from "../constants/actionType";
 
 const initialState = {
   isLoading: false,
   formCreateMatch: {
     stepForm: 1,
+    listUserPro: [],
     listUserSelect: [],
     formData: {
       name: "",
@@ -56,12 +59,18 @@ export const matchFormReducer = (state = initialState, action) => {
     case NEXT_STEP_FORM:
       return {
         ...state,
-        formCreateMatch: { ...state.formCreateMatch, stepForm: state.formCreateMatch.stepForm + 1 },
+        formCreateMatch: {
+          ...state.formCreateMatch,
+          stepForm: state.formCreateMatch.stepForm + 1,
+        },
       };
     case BACK_STEP_FORM:
       return {
         ...state,
-        formCreateMatch: { ...state.formCreateMatch, stepForm: state.formCreateMatch.stepForm - 1 },
+        formCreateMatch: {
+          ...state.formCreateMatch,
+          stepForm: state.formCreateMatch.stepForm - 1,
+        },
       };
     case CALL_API_PENDING:
       return {
@@ -84,13 +93,20 @@ export const matchFormReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        formCreateMatch: { ...state.formCreateMatch, listUserSelect: action.payload, teamGenerate: null },
+        formCreateMatch: {
+          ...state.formCreateMatch,
+          listUserSelect: action.payload,
+          teamGenerate: null,
+        },
       };
     case GENERATE_TEAM_TO_MATCH_FULFILLED:
       return {
         ...state,
         isLoading: false,
-        formCreateMatch: { ...state.formCreateMatch, teamGenerate: action.payload },
+        formCreateMatch: {
+          ...state.formCreateMatch,
+          teamGenerate: action.payload,
+        },
       };
     case GENERATE_TEAM_TO_MATCH_REJECTED:
       return {
@@ -139,6 +155,26 @@ export const matchFormReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         formEditMatch: { ...state.formEditMatch, formData: action.payload },
+      };
+    case ADD_USER_PRO:
+      return {
+        ...state,
+        isLoading: false,
+        formCreateMatch: {
+          ...state.formCreateMatch,
+          listUserPro: [...state.formCreateMatch.listUserPro, action.payload],
+        },
+      };
+    case DELETE_USER_PRO:
+      return {
+        ...state,
+        isLoading: false,
+        formCreateMatch: {
+          ...state.formCreateMatch,
+          listUserPro: state.formCreateMatch.listUserPro.filter(
+            (user) => user.id !== action.payload
+          ),
+        },
       };
     case CHANGE_ERROR_EDIT_MATCH:
       return {
