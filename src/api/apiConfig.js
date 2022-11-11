@@ -1,5 +1,5 @@
 const apiConfig = {
-  baseUrl: "http://127.0.0.1:3300/api",
+  baseUrl: "https://counter-strike-dong.herokuapp.com/api",
 };
 
 export default apiConfig;
