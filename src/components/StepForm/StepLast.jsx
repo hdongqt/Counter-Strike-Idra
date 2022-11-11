@@ -1,16 +1,23 @@
 import * as FormStyle from "./Form.style";
 import { useSelector, useDispatch } from "react-redux";
-import { backStepForm, cancelCreateMatch, submitcreateMatchAPI } from "../../actions/formMatchAction";
+import domtoimage from "dom-to-image-more";
+import { saveAs } from "file-saver";
+import {
+  backStepForm,
+  cancelCreateMatch,
+  submitcreateMatchAPI,
+} from "../../actions/formMatchAction";
 import { setUserSelect, getUsers } from "../../actions/userAction";
 import SelectCustom from "./../common/SelectCustom/SelectCustom";
 import Table from "./../common/Table/Table";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Loading from "./../Loading/Loading";
 import { generateTeamAPIFromListUser } from "../../actions/formMatchAction";
 import * as message from "../../utils";
 import { useNavigate } from "react-router-dom";
 
 const StepLast = () => {
+  const ref = useRef(null);
   const columnUserGenerate = [
     {
       name: "name",
@@ -50,7 +57,11 @@ const StepLast = () => {
       title: "Win Rate Default",
       width: "150px",
       render: (data) => {
-        return <span>{data.winRateDefault !== null ? `${data.winRateDefault} %` : ""}</span>;
+        return (
+          <span>
+            {data.winRateDefault !== null ? `${data.winRateDefault} %` : ""}
+          </span>
+        );
       },
     },
   ];
@@ -74,7 +85,9 @@ const StepLast = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { listUser, listUserSelect, teamGenerate } = useSelector((state) => state.matchFormReducer.formCreateMatch);
+  const { listUser, listUserSelect, teamGenerate } = useSelector(
+    (state) => state.matchFormReducer.formCreateMatch
+  );
   const { isLoading } = useSelector((state) => state.matchFormReducer);
 
   useEffect(() => {
@@ -83,13 +96,19 @@ const StepLast = () => {
   const [isFirstOpenListTeam, setIsFirstOpenListTeam] = useState(true);
 
   useEffect(() => {
-    if (isFirstOpenListTeam && listUser.length > 0 && listUserSelect.length === 0) {
+    if (
+      isFirstOpenListTeam &&
+      listUser.length > 0 &&
+      listUserSelect.length === 0
+    ) {
       dispatch(setUserSelect(listUser));
       setIsFirstOpenListTeam(false);
     }
   }, [dispatch, listUser, listUserSelect, isFirstOpenListTeam]);
 
-  const { formData } = useSelector((state) => state.matchFormReducer.formCreateMatch);
+  const { formData } = useSelector(
+    (state) => state.matchFormReducer.formCreateMatch
+  );
 
   const [selectUserSearch, setSelectUserSearch] = useState("SELECT_ALL");
 
@@ -126,7 +145,9 @@ const StepLast = () => {
   };
 
   const onClickDeleteUserSelect = (item) => {
-    const newListUserSelect = listUserSelect.filter((user) => user.id !== item.id);
+    const newListUserSelect = listUserSelect.filter(
+      (user) => user.id !== item.id
+    );
     dispatch(setUserSelect(newListUserSelect));
   };
 
@@ -136,6 +157,15 @@ const StepLast = () => {
       dispatch(generateTeamAPIFromListUser(listIdSelect));
     } else {
       message.error("Please choose total player greater than 2");
+    }
+  };
+
+  const handleCaptureTeam = async () => {
+    try {
+      const dataUrl = await domtoimage.toPng(ref.current);
+      saveAs(dataUrl, "image.jpg");
+    } catch (e) {
+      await message.error("Cannot capture!");
     }
   };
 
@@ -166,18 +196,57 @@ const StepLast = () => {
           </FormStyle.FormButton>
         </div>
         {teamGenerate && (
-          <div>
-            <span style={{ padding: "10px 0px", display: "inline-block", fontWeight: "bold" }}>
-              Team Counter-Terrorist
-            </span>
-            <Table columns={columnUserGenerate} data={teamGenerate?.teamCT} />
-            <span style={{ padding: "10px 0px", display: "inline-block", fontWeight: "bold" }}>Team Terrorist</span>
-            <Table columns={columnUserGenerate} data={teamGenerate?.teamT} />
-          </div>
+          <>
+            <div
+              ref={ref}
+              style={{ backgroundColor: "#fff", padding: "16px 10px" }}
+            >
+              <span
+                style={{
+                  padding: "10px 0px",
+                  display: "inline-block",
+                  fontWeight: "bold",
+                }}
+              >
+                Team Counter-Terrorist
+              </span>
+              <Table columns={columnUserGenerate} data={teamGenerate?.teamCT} />
+              <span
+                style={{
+                  padding: "10px 0px",
+                  display: "inline-block",
+                  fontWeight: "bold",
+                }}
+              >
+                Team Terrorist
+              </span>
+              <Table columns={columnUserGenerate} data={teamGenerate?.teamT} />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                padding: "10px 0px",
+              }}
+            >
+              <FormStyle.FormButton
+                type="button"
+                onClick={() => handleCaptureTeam()}
+                isSubmit={true}
+                bgColor={"#1a851a"}
+                color={"#fff"}
+              >
+                Download Capture
+              </FormStyle.FormButton>
+            </div>
+          </>
         )}
       </div>
-      <FormStyle.ButtonGroupStep style={{ marginLeft: "-40px" }}>
-        <FormStyle.FormButton type="button" onClick={() => dispatch(backStepForm())}>
+      <FormStyle.ButtonGroupStep>
+        <FormStyle.FormButton
+          type="button"
+          onClick={() => dispatch(backStepForm())}
+        >
           Back
         </FormStyle.FormButton>
         <FormStyle.FormButton
