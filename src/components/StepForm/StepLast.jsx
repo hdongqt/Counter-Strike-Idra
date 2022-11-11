@@ -223,7 +223,9 @@ const StepLast = () => {
   const handleCaptureTeam = async () => {
     try {
       const dataUrl = await domtoimage.toPng(ref.current);
-      saveAs(dataUrl, "image.jpg");
+      const date = new Date();
+      const name = date.getTime();
+      saveAs(dataUrl, `${name}.png`);
     } catch (e) {
       await message.error("Cannot capture!");
     }
