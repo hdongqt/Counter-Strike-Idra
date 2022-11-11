@@ -47,7 +47,7 @@ MatchService.generateTeam = async (listUser, listUserPro) => {
     amountWinRateT = 0;
   const teamCT = [],
     teamT = [];
-  if (listUserPro && listUserPro.length > 0) {
+  if (listUserPro && listUserPro.length > 1) {
     listUser = _.difference(listUser, listUserPro);
     const response = await user.findAll({
       include: [
