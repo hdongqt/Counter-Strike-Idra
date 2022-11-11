@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Origin",
-    "https://counter-strike-chi.vercel.app/"
+    "https://counter-strike-five.vercel.app"
   );
   res.header(
     "Access-Control-Allow-Methods",
