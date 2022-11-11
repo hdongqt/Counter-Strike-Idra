@@ -41,7 +41,30 @@ MatchService.getMatchById = async (id) => {
   });
 };
 
-MatchService.generateTeam = async (listUser) => {
+MatchService.generateTeam = async (listUser, listUserPro) => {
+  let listPro;
+  let amountWinRateCT = 0,
+    amountWinRateT = 0;
+  const teamCT = [],
+    teamT = [];
+  if (listUserPro && listUserPro.length > 0) {
+    listUser = _.difference(listUser, listUserPro);
+    const response = await user.findAll({
+      include: [
+        {
+          model: team,
+          where: { status: "active" },
+          through: { attributes: [] },
+          required: false,
+        },
+      ],
+      where: { status: "active", id: listUserPro },
+    });
+    listPro = response.map((x) => x.get({ plain: true }));
+    listPro = _.shuffle(calculateMatch(listPro));
+    teamT.push(...listPro.slice(0, listPro.length / 2));
+    teamCT.push(...listPro.slice(listPro.length / 2, listPro.length));
+  }
   const listMatchUsers = await user.findAll({
     include: [
       {
@@ -54,15 +77,11 @@ MatchService.generateTeam = async (listUser) => {
     where: { status: "active", id: listUser },
   });
 
-  let amountWinRateCT = 0,
-    amountWinRateT = 0;
-  const teamCT = [],
-    teamT = [];
   const listFind = listMatchUsers.map((x) => x.get({ plain: true }));
+
   const listSort = _.shuffle(calculateMatch(listFind)).sort(
     (a, b) => b.winRate - a.winRate
   );
-
   _(listSort).forEach((item) => {
     if (amountWinRateT === amountWinRateCT) {
       if (teamT.length > teamCT.length) {

@@ -27,8 +27,8 @@ const getMatchById = async (req, res, next) => {
 
 const generateTeam = async (req, res, next) => {
   try {
-    const { listUser } = req.body;
-    const teamSplit = await MatchService.generateTeam(listUser);
+    const { listUser, listUserPro } = req.body;
+    const teamSplit = await MatchService.generateTeam(listUser, listUserPro);
     res.status(200).json(teamSplit);
   } catch (error) {
     return next(responseError(error));
