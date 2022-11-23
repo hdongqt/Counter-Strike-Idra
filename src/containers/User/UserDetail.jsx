@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import * as UserDetailStyle from "./UserDetail.style";
 import { getUser } from "../../actions/userAction";
 import Table from "../../components/common/Table/Table";
 
 const UserDetail = () => {
-  let navigate = useNavigate();
   const dispatch = useDispatch();
   const userDetail = useSelector((state) => state.userReducer.userDetail);
 
@@ -27,7 +26,7 @@ const UserDetail = () => {
               cursor: "pointer",
               color: `${data?.team_type === "T" ? "blue" : "red"}`,
             }}
-            onClick={() => navigate(`/matchs/${data?.match_id}`)}
+            onClick={() => window.open(`/matchs/${data?.match_id}`, "_blank")}
           >
             {data?.team_type === "T" ? "Terrorist" : "Counter-Terrorist"}
           </span>
