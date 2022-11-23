@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import dayjs from "dayjs";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as UserDetailStyle from "./UserDetail.style";
 import { getUser } from "../../actions/userAction";
 import Table from "../../components/common/Table/Table";
 
 const UserDetail = () => {
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const userDetail = useSelector((state) => state.userReducer.userDetail);
 
@@ -20,7 +21,17 @@ const UserDetail = () => {
       name: "",
       title: "Team",
       render: (data) => {
-        return <span>{data?.team_type === "T" ? "Terrorist" : "Counter-Terrorist"}</span>;
+        return (
+          <span
+            style={{
+              cursor: "pointer",
+              color: `${data?.team_type === "T" ? "blue" : "red"}`,
+            }}
+            onClick={() => navigate(`/matchs/${data?.match_id}`)}
+          >
+            {data?.team_type === "T" ? "Terrorist" : "Counter-Terrorist"}
+          </span>
+        );
       },
     },
     {
@@ -43,49 +54,68 @@ const UserDetail = () => {
         <p>Back To Users</p>
       </UserDetailStyle.BackToUserButton>
       <UserDetailStyle.UserActionContainer>
-        <UserDetailStyle.UserActionTitle>User: {userDetail?.name} </UserDetailStyle.UserActionTitle>
+        <UserDetailStyle.UserActionTitle>
+          User: {userDetail?.name}{" "}
+        </UserDetailStyle.UserActionTitle>
         <UserDetailStyle.UserActionRow>
           <UserDetailStyle.UserActionGroup>
             <UserDetailStyle.UserLabel>Name:</UserDetailStyle.UserLabel>
-            <UserDetailStyle.UserInfo>{userDetail?.name}</UserDetailStyle.UserInfo>
+            <UserDetailStyle.UserInfo>
+              {userDetail?.name}
+            </UserDetailStyle.UserInfo>
           </UserDetailStyle.UserActionGroup>
           <UserDetailStyle.UserActionGroup>
             <UserDetailStyle.UserLabel>Username:</UserDetailStyle.UserLabel>
-            <UserDetailStyle.UserInfo>{userDetail?.username}</UserDetailStyle.UserInfo>
+            <UserDetailStyle.UserInfo>
+              {userDetail?.username}
+            </UserDetailStyle.UserInfo>
           </UserDetailStyle.UserActionGroup>
         </UserDetailStyle.UserActionRow>
         <UserDetailStyle.UserActionRow>
           <UserDetailStyle.UserActionGroup>
             <UserDetailStyle.UserLabel>Join:</UserDetailStyle.UserLabel>
             <UserDetailStyle.UserInfo>
-              {userDetail?.createdAt && dayjs(userDetail.createdAt).format("HH:mm DD/MM/YYYY")}
+              {userDetail?.createdAt &&
+                dayjs(userDetail.createdAt).format("HH:mm DD/MM/YYYY")}
             </UserDetailStyle.UserInfo>
           </UserDetailStyle.UserActionGroup>
         </UserDetailStyle.UserActionRow>
         <UserDetailStyle.UserActionRow>
           <UserDetailStyle.UserActionGroup>
             <UserDetailStyle.UserLabel>Amount Match:</UserDetailStyle.UserLabel>
-            <UserDetailStyle.UserInfo>{userDetail?.amountMatch}</UserDetailStyle.UserInfo>
+            <UserDetailStyle.UserInfo>
+              {userDetail?.amountMatch}
+            </UserDetailStyle.UserInfo>
           </UserDetailStyle.UserActionGroup>
           <UserDetailStyle.UserActionGroup>
-            <UserDetailStyle.UserLabel>Amount Finish:</UserDetailStyle.UserLabel>
-            <UserDetailStyle.UserInfo>{userDetail?.amountMatchFinish}</UserDetailStyle.UserInfo>
+            <UserDetailStyle.UserLabel>
+              Amount Finish:
+            </UserDetailStyle.UserLabel>
+            <UserDetailStyle.UserInfo>
+              {userDetail?.amountMatchFinish}
+            </UserDetailStyle.UserInfo>
           </UserDetailStyle.UserActionGroup>
         </UserDetailStyle.UserActionRow>
         <UserDetailStyle.UserActionRow>
           <UserDetailStyle.UserActionGroup>
             <UserDetailStyle.UserLabel>Amount Win:</UserDetailStyle.UserLabel>
-            <UserDetailStyle.UserInfo>{userDetail?.amountWin}</UserDetailStyle.UserInfo>
+            <UserDetailStyle.UserInfo>
+              {userDetail?.amountWin}
+            </UserDetailStyle.UserInfo>
           </UserDetailStyle.UserActionGroup>
           <UserDetailStyle.UserActionGroup>
             <UserDetailStyle.UserLabel>Amount Lose:</UserDetailStyle.UserLabel>
-            <UserDetailStyle.UserInfo>{userDetail?.amountLose}</UserDetailStyle.UserInfo>
+            <UserDetailStyle.UserInfo>
+              {userDetail?.amountLose}
+            </UserDetailStyle.UserInfo>
           </UserDetailStyle.UserActionGroup>
         </UserDetailStyle.UserActionRow>
         <UserDetailStyle.UserActionRow>
           <UserDetailStyle.UserActionGroup>
             <UserDetailStyle.UserLabel>Win rate:</UserDetailStyle.UserLabel>
-            <UserDetailStyle.UserInfo>{userDetail?.winRate} %</UserDetailStyle.UserInfo>
+            <UserDetailStyle.UserInfo>
+              {userDetail?.winRate} %
+            </UserDetailStyle.UserInfo>
           </UserDetailStyle.UserActionGroup>
         </UserDetailStyle.UserActionRow>
       </UserDetailStyle.UserActionContainer>
