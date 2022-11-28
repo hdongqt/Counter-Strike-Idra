@@ -12,10 +12,10 @@ import {
 } from "../constants/actionType";
 import { GET_MATCH_DETAIL_FULFILLED, DELETE_MATCH_FULFILLED } from "../constants/actionType";
 
-export const getMatchs = (search, status) => async (dispatch) => {
+export const getMatchs = (payload) => async (dispatch) => {
   dispatch({ type: CALL_API_PENDING });
   try {
-    const response = await fetchMatchsAPI(search, status);
+    const response = await fetchMatchsAPI(payload);
     dispatch({
       type: GET_LIST_MATCHS_FULFILLED,
       payload: response.data,

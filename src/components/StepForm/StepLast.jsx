@@ -254,13 +254,13 @@ const StepLast = () => {
       </div>
       <div>
         <div style={{ maxHeight: "400px", overflowY: "auto" }}>
-          <Table columns={columnUserSelect} data={listUserSelect} />
+          <Table columns={columnUserSelect} payload={{data:listUserSelect}} />
         </div>
         {listUserPro && listUserPro.length > 0 && (
           <>
             <span>List of pro users</span>
             <div style={{ maxHeight: "400px", overflowY: "auto" }}>
-              <Table columns={columnUserPro} data={listUserPro} />
+              <Table columns={columnUserPro} payload={{data:listUserPro}} />
             </div>
           </>
         )}
@@ -290,7 +290,7 @@ const StepLast = () => {
               >
                 Team Counter-Terrorist
               </span>
-              <Table columns={columnUserGenerate} data={teamGenerate?.teamCT} />
+              <Table columns={columnUserGenerate} payload={{data:teamGenerate?.teamCT}} />
               <span
                 style={{
                   padding: "10px 0px",
@@ -300,7 +300,7 @@ const StepLast = () => {
               >
                 Team Terrorist
               </span>
-              <Table columns={columnUserGenerate} data={teamGenerate?.teamT} />
+              <Table columns={columnUserGenerate} payload={{data:teamGenerate?.teamT}} />
             </div>
             <div
               style={{

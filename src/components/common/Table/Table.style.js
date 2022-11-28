@@ -63,4 +63,73 @@ const TableColumn = styled.td`
   }
 `;
 
-export { Table, TableAction, TableColumnHeader, TableColumn, TableButton, TableButtonIcon };
+const TablePaginationStyle = styled.div`
+  margin-top: 10px;
+  & .pagination {
+    margin: 15px auto;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    outline: none;
+  }
+  & .pagination > .active > a {
+    background-color: #47ccde;
+    border-color: #47ccde;
+    color: #fff;
+  }
+  & .pagination > li > a {
+    border: 1px solid #47ccde;
+    padding: 5px 10px;
+    outline: none;
+    cursor: pointer;
+  }
+  & .pagination > .active > a,
+  .pagination > .active > span,
+  .pagination > .active > a:hover,
+  .pagination > .active > span:hover,
+  .pagination > .active > a:focus,
+  .pagination > .active > span:focus {
+    background-color: #47ccde;
+    border-color: #47ccde;
+    outline: none;
+  }
+  & .pagination > li > a,
+  .pagination > li > span {
+    color: #47ccde;
+  }
+  & .pagination > li:first-child > a,
+  .pagination > li:first-child > span,
+  .pagination > li:last-child > a,
+  .pagination > li:last-child > span {
+    border-radius: unset;
+  }
+`;
+const TableLoading = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  .loadingspinner {
+    width: 56px;
+    height: 56px;
+    border: 5px solid #eee;
+    border-top-color: #3e67ec;
+    border-radius: 50%;
+    animation: loadingspin 1.4s linear infinite;
+  }
+  @keyframes loadingspin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
+export {
+  Table,
+  TableAction,
+  TableColumnHeader,
+  TableColumn,
+  TableButton,
+  TableButtonIcon,
+  TablePaginationStyle,
+  TableLoading,
+};

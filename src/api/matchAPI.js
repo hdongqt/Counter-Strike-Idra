@@ -1,8 +1,8 @@
 import axiosClient from "./axiosClient";
 
-const fetchMatchsAPI = (search = "", type) => {
+const fetchMatchsAPI = (payload) => {
   const url = "/matchs";
-  return axiosClient.get(url, { params: { search: search, type: type } });
+  return axiosClient.get(url, { params: payload });
 };
 
 const getMatchByIdAPI = (id) => {

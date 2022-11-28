@@ -138,7 +138,7 @@ const User = () => {
               onChange={(e) => handleChangeKeySearch(e.target.value)}
             />
           </MatchStyle.MatchAction>
-          <Table columns={columns} data={listUser} />
+          <Table columns={columns} payload={{data:listUser}} />
         </MatchStyle.MatchContainer>
       </MatchStyle.Match>
       {isOpenForm && <UserAction />}
