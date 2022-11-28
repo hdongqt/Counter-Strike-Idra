@@ -29,3 +29,23 @@ exports.calculateMatch = (list) => {
     return item;
   });
 };
+
+exports.handleConvertPagination = (page, limit) => {
+  let size = Number.parseInt(limit);
+  let pageCurrent = Number.parseInt(page);
+  if (!pageCurrent || pageCurrent < 0) pageCurrent = 0;
+  if (!limit) size = 10;
+  return {
+    size,
+    pageCurrent,
+  };
+};
+
+exports.handleGeneratePagination = (totalItem, size, pageCurrent) => {
+  return {
+    totalItems: totalItem,
+    totalPages: Math.ceil(totalItem / size),
+    limit: size,
+    currentPage: pageCurrent,
+  };
+};

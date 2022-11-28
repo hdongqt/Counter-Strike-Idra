@@ -3,8 +3,7 @@ const MatchService = require("../services/match.service");
 
 const getMatchs = async (req, res, next) => {
   try {
-    const { search } = req.query;
-    const matches = await MatchService.getMatchs(search);
+    const matches = await MatchService.getMatchs(req.query);
     res.status(200).json(matches);
   } catch (error) {
     next(responseError(error));

@@ -2,13 +2,19 @@ const _ = require("lodash");
 const db = require("../../models");
 const { match, team, user } = require("../../models");
 const { Op } = require("sequelize");
-const { calculateMatch } = require("../shared/common");
+const {
+  calculateMatch,
+  handleConvertPagination,
+  handleGeneratePagination,
+} = require("../shared/common");
 const { responseError } = require("../shared/handleError");
 
 const MatchService = {};
 
-MatchService.getMatchs = async (search) => {
-  return await match.findAll({
+MatchService.getMatchs = async (params) => {
+  const { page, limit, state, search } = params;
+  const { size, pageCurrent } = handleConvertPagination(page, limit);
+  const { count, rows } = await match.findAndCountAll({
     include: [
       {
         model: team,
@@ -23,9 +29,23 @@ MatchService.getMatchs = async (search) => {
       name: {
         [Op.iLike]: `%${search ? search : ""}%`,
       },
+      [Op.and]: [
+        (state === "INPROGRESS" || state === "FINISHED") && {
+          state: {
+            [Op.eq]: state,
+          },
+        },
+      ],
     },
-    order: [["createdAt", "ASC"]],
+    distinct: true,
+    limit: size,
+    offset: pageCurrent * size,
+    order: [["createdAt", "DESC"]],
   });
+  return {
+    data: rows,
+    pagination: handleGeneratePagination(count, size, pageCurrent),
+  };
 };
 
 MatchService.getMatchById = async (id) => {
