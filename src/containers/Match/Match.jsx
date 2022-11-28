@@ -45,7 +45,6 @@ const Match = () => {
         const nameDate = nameSplit && nameSplit.length > 0 && nameSplit.pop();
         return (
           <span>
-            {" "}
             {nameSplit &&
               `${nameSplit.join(" ")} ${dayjs(nameDate).format(
                 "HH:mm DD/MM/YYYY"
@@ -129,7 +128,7 @@ const Match = () => {
   };
 
   const handleChangePage = (page) => {
-    const payload = { search: fullTextSearch, page, limit: 5 };
+    const payload = { search: fullTextSearch, page, limit: 10 };
     dispatch(getMatchs(payload));
   };
 

@@ -98,7 +98,6 @@ const Table = ({ columns, payload, onChangePage, showPagination, loading }) => {
                 nextLabel={<i className="las la-angle-right"></i>}
                 breakLabel={"..."}
                 forcePage={pageCurrent}
-                breakClassName={"break-me"}
                 pageCount={Math.ceil(pagination?.totalPages)}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={3}
