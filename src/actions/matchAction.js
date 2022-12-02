@@ -1,7 +1,13 @@
 import * as message from "../utils/message";
-import { fetchMatchsAPI, getMatchByIdAPI, deleteMatchAPI, setTeamWinAPI } from "../api/matchAPI";
+import {
+  fetchMatchsAPI,
+  getMatchByIdAPI,
+  deleteMatchAPI,
+  setTeamWinAPI,
+} from "../api/matchAPI";
 import {
   CALL_API_PENDING,
+  GET_MATCH_LOADING,
   CHANGE_TEXT_SEARCH_MATCH,
   DELETE_MATCH_REJECTED,
   GET_LIST_MATCHS_FULFILLED,
@@ -10,7 +16,10 @@ import {
   SET_TEAM_WIN_FULFILLED,
   SET_TEAM_WIN_REJECTED,
 } from "../constants/actionType";
-import { GET_MATCH_DETAIL_FULFILLED, DELETE_MATCH_FULFILLED } from "../constants/actionType";
+import {
+  GET_MATCH_DETAIL_FULFILLED,
+  DELETE_MATCH_FULFILLED,
+} from "../constants/actionType";
 
 export const getMatchs = (payload) => async (dispatch) => {
   dispatch({ type: CALL_API_PENDING });
@@ -28,7 +37,7 @@ export const getMatchs = (payload) => async (dispatch) => {
 };
 
 export const getMatch = (id) => async (dispatch) => {
-  dispatch({ type: CALL_API_PENDING });
+  dispatch({ type: GET_MATCH_LOADING });
   try {
     const response = await getMatchByIdAPI(id);
     dispatch({

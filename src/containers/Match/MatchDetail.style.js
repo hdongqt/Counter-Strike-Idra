@@ -57,8 +57,7 @@ const MatchInfo = styled.span`
 `;
 
 const MatchTeam = styled.div`
-  display: flex;
-  width: 600px;
+  width: 50%;
 `;
 
 const MatchTeamColumn = styled.div`
@@ -67,6 +66,10 @@ const MatchTeamColumn = styled.div`
   &:last-child {
     border-left: none;
   }
+`;
+
+const MatchWheel = styled.div`
+  width: 50%;
 `;
 
 const MatchTeamHeader = styled.span`
@@ -146,4 +149,5 @@ export {
   MatchTeamWin,
   Button,
   TeamSelectName,
+  MatchWheel,
 };
