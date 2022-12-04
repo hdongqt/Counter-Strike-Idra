@@ -16,6 +16,7 @@
   "author": "Huu Dong",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-validator": "^6.14.2",
     "lodash": "^4.17.21",

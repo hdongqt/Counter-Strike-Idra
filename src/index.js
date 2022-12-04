@@ -39,6 +39,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(process.env.PORT || 3300, () => {
+app.listen(3300, () => {
   console.log("listening on port 3300");
 });
