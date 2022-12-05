@@ -254,13 +254,16 @@ const StepLast = () => {
       </div>
       <div>
         <div style={{ maxHeight: "400px", overflowY: "auto" }}>
-          <Table columns={columnUserSelect} payload={{data:listUserSelect}} />
+          <Table
+            columns={columnUserSelect}
+            payload={{ data: listUserSelect }}
+          />
         </div>
         {listUserPro && listUserPro.length > 0 && (
           <>
             <span>List of pro users</span>
             <div style={{ maxHeight: "400px", overflowY: "auto" }}>
-              <Table columns={columnUserPro} payload={{data:listUserPro}} />
+              <Table columns={columnUserPro} payload={{ data: listUserPro }} />
             </div>
           </>
         )}
@@ -281,26 +284,30 @@ const StepLast = () => {
               ref={ref}
               style={{ backgroundColor: "#fff", padding: "16px 10px" }}
             >
-              <span
+              <h2
                 style={{
                   padding: "10px 0px",
-                  display: "inline-block",
                   fontWeight: "bold",
                 }}
               >
                 Team Counter-Terrorist
-              </span>
-              <Table columns={columnUserGenerate} payload={{data:teamGenerate?.teamCT}} />
-              <span
+              </h2>
+              <Table
+                columns={columnUserGenerate}
+                payload={{ data: teamGenerate?.teamCT }}
+              />
+              <h2
                 style={{
                   padding: "10px 0px",
-                  display: "inline-block",
                   fontWeight: "bold",
                 }}
               >
                 Team Terrorist
-              </span>
-              <Table columns={columnUserGenerate} payload={{data:teamGenerate?.teamT}} />
+              </h2>
+              <Table
+                columns={columnUserGenerate}
+                payload={{ data: teamGenerate?.teamT }}
+              />
             </div>
             <div
               style={{

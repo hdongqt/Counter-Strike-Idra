@@ -2,10 +2,8 @@ import styled from "styled-components";
 
 const Table = styled.table`
   width: 100%;
-  border: 1px solid;
-  border-color: #9829;
   border-collapse: collapse;
-  border: 2px solid rgb(170 174 174 / 34%);
+  border: 2px solid #ccc;
   & tr {
     &:nth-child(even) {
       background-color: rgb(250, 250, 250);
