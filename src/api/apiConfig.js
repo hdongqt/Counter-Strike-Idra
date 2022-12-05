@@ -1,5 +1,5 @@
 const apiConfig = {
-  baseUrl: "https://counter-strike-dong.herokuapp.com/api",
+  baseUrl: "https://splitteambackend-production.up.railway.app/api",
 };
 
 export default apiConfig;
