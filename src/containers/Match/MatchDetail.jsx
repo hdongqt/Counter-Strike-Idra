@@ -12,7 +12,6 @@ const MatchDetail = () => {
   const { id } = useParams();
   const { matchDetail } = useSelector((state) => state.matchReducer);
   const { isGetLoading } = useSelector((state) => state.matchReducer);
-  console.log(isGetLoading);
   const [listLucky, setListLucky] = useState([]);
   const [teamCT, setTeamCT] = useState([]);
   const [teamT, setTeamT] = useState([]);

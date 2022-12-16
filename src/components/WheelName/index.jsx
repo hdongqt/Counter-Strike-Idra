@@ -51,15 +51,20 @@ export default function WheelName({ data, setIsOpenLucky }) {
   };
 
   const newData =
-    listLucky &&
-    listLucky.length > 0 &&
-    listLucky.map((item, index) => {
-      const newItem = {
-        option: item,
-        style: { backgroundColor: colorArray()[index] },
-      };
-      return newItem;
-    });
+    listLucky && listLucky.length > 0
+      ? listLucky.map((item, index) => {
+          const newItem = {
+            option: item,
+            style: { backgroundColor: colorArray()[index] },
+          };
+          return newItem;
+        })
+      : [
+          {
+            option: "",
+            style: { backgroundColor: colorArray()[0] },
+          },
+        ];
 
   const stopSpin = () => {
     setNameSelect(newData[prizeNumber].option);
@@ -109,6 +114,7 @@ export default function WheelName({ data, setIsOpenLucky }) {
                 onStopSpinning={stopSpin}
                 radiusLineWidth={2}
                 outerBorderWidth={2}
+                spinDuration={0.6}
               />
             </div>
             <div
