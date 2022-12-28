@@ -4,17 +4,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Table from "../../components/common/Table/Table";
 import * as message from "../../utils/message";
-import { changeTextSearchUser, deleteUser, getUsers } from "../../actions/userAction";
+import {
+  changeTextSearchUser,
+  deleteUser,
+  getUsers,
+} from "../../actions/userAction";
 import UserAction from "./../../components/Form/UserSave/UserSave";
-import { changeValueFormUserAction, openFormCreateUser } from "../../actions/formUserAction";
+import {
+  changeValueFormUserAction,
+  openFormCreateUser,
+} from "../../actions/formUserAction";
 import { round } from "lodash";
 
 const User = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const refSearch = useRef(null);
-  const { listUser, fullTextSearch } = useSelector((state) => state.userReducer);
-  const { isOpenForm } = useSelector((state) => state.userFormReducer.formActionUser);
+  const { listUser, fullTextSearch } = useSelector(
+    (state) => state.userReducer
+  );
+  const { isOpenForm } = useSelector(
+    (state) => state.userFormReducer.formActionUser
+  );
+  const { isLoading } = useSelector((state) => state.userReducer);
   useEffect(() => {
     // Debounce search
     if (refSearch && refSearch.current) {
@@ -72,7 +84,13 @@ const User = () => {
     {
       title: "Win Rate Default",
       render: (data) => {
-        return <span>{data.winRateDefault !== null ? `${round(data.winRateDefault, 2)} %` : ""}</span>;
+        return (
+          <span>
+            {data.winRateDefault !== null
+              ? `${round(data.winRateDefault, 2)} %`
+              : ""}
+          </span>
+        );
       },
     },
     {
@@ -116,7 +134,8 @@ const User = () => {
         id: user.id,
         username: user.username,
         name: user.name,
-        winRateDefault: user.winRateDefault !== null ? round(user.winRateDefault, 2) : "",
+        winRateDefault:
+          user.winRateDefault !== null ? round(user.winRateDefault, 2) : "",
       })
     );
   };
@@ -131,14 +150,20 @@ const User = () => {
         <h2>Users</h2>
         <MatchStyle.MatchContainer>
           <MatchStyle.MatchAction>
-            <MatchStyle.MatchButtonCreate onClick={handleOpenFormCreate}>Create</MatchStyle.MatchButtonCreate>
+            <MatchStyle.MatchButtonCreate onClick={handleOpenFormCreate}>
+              Create
+            </MatchStyle.MatchButtonCreate>
             <MatchStyle.MatchSearch
               placeholder="Search users..."
               value={fullTextSearch}
               onChange={(e) => handleChangeKeySearch(e.target.value)}
             />
           </MatchStyle.MatchAction>
-          <Table columns={columns} payload={{data:listUser}} />
+          <Table
+            columns={columns}
+            payload={{ data: listUser }}
+            loading={isLoading}
+          />
         </MatchStyle.MatchContainer>
       </MatchStyle.Match>
       {isOpenForm && <UserAction />}
