@@ -1,5 +1,5 @@
 const apiConfig = {
-  baseUrl: "https://splitteambackend-production.up.railway.app/api",
+  baseUrl: "https://counter-strike-idra.onrender.com/api",
 };
 
 export default apiConfig;
