@@ -1,5 +1,5 @@
 import * as MatchStyle from "../Match/Match.style";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Table from "../../components/common/Table/Table";
@@ -14,7 +14,8 @@ import {
   changeValueFormUserAction,
   openFormCreateUser,
 } from "../../actions/formUserAction";
-import { round } from "lodash";
+import _, { round } from "lodash";
+import WheelName from "../../components/WheelName";
 
 const User = () => {
   let navigate = useNavigate();
@@ -26,7 +27,12 @@ const User = () => {
   const { isOpenForm } = useSelector(
     (state) => state.userFormReducer.formActionUser
   );
+
   const { isLoading } = useSelector((state) => state.userReducer);
+
+  const [isOpenLucky, setIsOpenLucky] = useState(false);
+  const [listLucky, setListLucky] = useState([]);
+
   useEffect(() => {
     // Debounce search
     if (refSearch && refSearch.current) {
@@ -36,6 +42,13 @@ const User = () => {
       dispatch(getUsers(fullTextSearch));
     }, 100);
   }, [dispatch, fullTextSearch]);
+
+  useEffect(() => {
+    if (!_.isEmpty(listUser)) {
+      const listLuckyResolve = listUser.map((item) => item.name);
+      setListLucky(listLuckyResolve);
+    }
+  }, [listUser]);
 
   const columns = [
     {
@@ -150,9 +163,20 @@ const User = () => {
         <h2>Users</h2>
         <MatchStyle.MatchContainer>
           <MatchStyle.MatchAction>
-            <MatchStyle.MatchButtonCreate onClick={handleOpenFormCreate}>
-              Create
-            </MatchStyle.MatchButtonCreate>
+            <MatchStyle.MatchButtonGroup>
+              <MatchStyle.MatchButtonCreate
+                onClick={handleOpenFormCreate}
+                disabled={isLoading}
+              >
+                Create
+              </MatchStyle.MatchButtonCreate>
+              <MatchStyle.MatchButtonCreate
+                onClick={() => setIsOpenLucky(true)}
+                disabled={isLoading}
+              >
+                Lucky Wheel
+              </MatchStyle.MatchButtonCreate>
+            </MatchStyle.MatchButtonGroup>
             <MatchStyle.MatchSearch
               placeholder="Search users..."
               value={fullTextSearch}
@@ -165,6 +189,9 @@ const User = () => {
             loading={isLoading}
           />
         </MatchStyle.MatchContainer>
+        {isOpenLucky && (
+          <WheelName data={listLucky} setIsOpenLucky={setIsOpenLucky} />
+        )}
       </MatchStyle.Match>
       {isOpenForm && <UserAction />}
     </>

@@ -137,7 +137,10 @@ const Match = () => {
       <h2>Matchs</h2>
       <MatchStyle.MatchContainer>
         <MatchStyle.MatchAction>
-          <MatchStyle.MatchButtonCreate to="/matchs/create">
+          <MatchStyle.MatchButtonCreate
+            to="/matchs/create"
+            disabled={isLoading}
+          >
             Create
           </MatchStyle.MatchButtonCreate>
           <MatchStyle.MatchSearch
